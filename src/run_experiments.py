@@ -1,5 +1,6 @@
 import os
 from doe import *
+from ai_benchmark import AIBenchmark
 
 
 def change_num_threads(num_threads):
@@ -27,11 +28,21 @@ def change_thread_mapping(thread_mapping_policy):
 
 
 if __name__ == "__main__":
+    #For initial test
+    change_num_threads(2)
+
     generateDefaultDoeCSV()
     #opens the default doe csv
     with open("doe.csv", "r") as doe:
         experiment_rounds = doe.readlines()
+        list_of_results = []
         for experiment_round in experiment_rounds:
             mappings = experiment_round.split(",")
-            thread_mappings = mappings[0]
-            data_mappings =   mappings[1]
+            thread_mapping = mappings[0]
+            data_mapping =   mappings[1]
+            change_data_mapping(data_mapping)
+            change_thread_mapping(thread_mapping)
+            benchmark = AIBenchmark()
+            current_result = benchmark.run()
+            list_of_results.append(current_result)
+
