@@ -33,7 +33,7 @@ def randomizeListOfExperiments(experiments):
     random.shuffle(experiments)
     return experiments
 
-def generateDoeCSV(list_of_experiments, doe_path):
+def generateDoeCSV(doe_path):
     """
     This function generates a CSV file based on a list of experiments.
 
@@ -41,9 +41,11 @@ def generateDoeCSV(list_of_experiments, doe_path):
     [("mapping1", "mapping2"), ...]
     :return: None
     """
+    possibleExperiments = getListOfPossibleExperiments(thread_mappings,data_mappings)
+    randomizedExperiments = randomizeListOfExperiments(possibleExperiments)
 
     with open(doe_path,"w") as doe_archive:
-        for pairOfMapping in list_of_experiments:
+        for pairOfMapping in randomizedExperiments:
             new_line = "{thread_mapping},{data_mapping}\n".format(thread_mapping=pairOfMapping[0],data_mapping=pairOfMapping[1])
             doe_archive.write(new_line)
 
