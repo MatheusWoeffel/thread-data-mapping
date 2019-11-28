@@ -1,4 +1,5 @@
 import re
+import doe
 
 def getScoreList(experimentTXT, scoreDescriptor):
     """
@@ -36,6 +37,22 @@ def getExecutionTimes(experimentTXT):
     return execution_times
 
 
+def populateDictionaryWithMappings(dictionary, data_mappings, thread_mappings):
+    """
+
+    :param dictionary: Dicionário a ser populado
+    :param data_mappings: Lista contendo os mapeamentos de dados utilizados
+    :param thread_mappings: Lista contendo os mapeamentos de threads utilizados
+    :return: Null. A função apenas popula o dicionário passado como argumento
+    """
+    dictionary.clear()
+
+    for thread_mapping in thread_mappings:
+        for data_mapping in data_mappings:
+            new_key = thread_mapping + "," + data_mapping
+            dictionary[new_key] = []
+
+
 if __name__ == "__main__":
     with open("/home/mwc/Documents/TD_mapping/saida_exp.txt","r+") as archive:
         all_text = archive.read()
@@ -47,11 +64,15 @@ if __name__ == "__main__":
         map2InferenceScore = {
         }
 
-        map2ExecutionScore = {
+        map2TrainingScore = {
         }
 
         map2ExecutionTimes = {
         }
+
+        populateDictionaryWithMappings(map2InferenceScore, doe.data_mappings, doe.thread_mappings)
+        populateDictionaryWithMappings(map2TrainingScore, doe.data_mappings, doe.thread_mappings)
+        populateDictionaryWithMappings(map2ExecutionTimes. doe.data_mappings, doe.thread_mapping)
 
         with open("doe.csv", "r") as doe:
             mappings = doe.readlines()
