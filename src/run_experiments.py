@@ -5,6 +5,8 @@ from ai_benchmark import AIBenchmark
 
 def change_num_threads(num_threads):
     os.environ["OMP_NUM_THREADS"] = str(num_threads)
+    os.system("export OMP_NUM_THREADS")
+    os.system("echo $OMP_NUM_THREADS")
 
 def change_data_mapping(data_mapping_policy):
     os.system("sysctl kernel.numaBalancing=0 &> /dev/null")
@@ -29,7 +31,7 @@ def change_thread_mapping(thread_mapping_policy):
 
 if __name__ == "__main__":
     #For initial test
-    change_num_threads(2)
+    change_num_threads(10)
 
     generateDefaultDoeCSV()
     #opens the default doe csv
@@ -40,6 +42,8 @@ if __name__ == "__main__":
             mappings = experiment_round.split(",")
             thread_mapping = mappings[0]
             data_mapping =   mappings[1]
+            print(thread_mapping)
+            print(data_mapping)
             change_data_mapping(data_mapping)
             change_thread_mapping(thread_mapping)
             benchmark = AIBenchmark()
