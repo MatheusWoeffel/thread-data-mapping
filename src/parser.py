@@ -76,9 +76,25 @@ if __name__ == "__main__":
 
         with open("doe.csv", "r") as doe:
             mappings = doe.readlines()
-            for mapping,score in zip(mappings,scoresList):
-                data_mapping = mapping.split(",")[1]
-                map2score[data_mapping].append(int(score))
+            for mapping,inferenceScore, trainingScore in zip(mappings,inference_scores_list, training_scores_list):
+                map2InferenceScore[mapping].append(inferenceScore)
+                map2TrainingScore[mapping].append(trainingScore)
+
+            exec_times_per_run = 42
+            i = 0
+            for index, execution_time  in zip(range(len(execution_times_list)), execution_times_list):
+                offset_index = index - (i * 42)
+                if ((offset_index % 42) == 0 && offset_index != 0:
+                    i+= 1
+                
+                mapping_used = mappings[i]
+                map2ExecutionTimes[mapping_used].append(execution_time)
+
+            
+                
+                
+
+
 
         for key in map2score.keys():
             average = 0
