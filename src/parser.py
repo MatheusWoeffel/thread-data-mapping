@@ -31,7 +31,7 @@ def getExecutionTimes(experimentTXT):
     for execution_time_line in execution_times_lines:
         index_of_time_start = execution_time_line.find(": ")
         index_of_time_end = execution_time_line.find(" ±")
-        execution_time = execution_time_line[index_of_time_start+1:index_of_time_end]
+        execution_time = execution_time_line[index_of_time_start+1:index_of_time_end] 
         execution_times.append(execution_time)
 
     return execution_times
@@ -49,15 +49,15 @@ def populateDictionaryWithMappings(dictionary, data_mappings, thread_mappings):
 
     for thread_mapping in thread_mappings:
         for data_mapping in data_mappings:
-            new_key = thread_mapping + "," + data_mapping
+            new_key = thread_mapping + "," + data_mapping 
             dictionary[new_key] = []
 
 
 if __name__ == "__main__":
-    with open("/home/mwc/Documents/TD_mapping/saida_exp.txt","r+") as archive:
+    with open("../novos_resultados.txt","r+") as archive:
         all_text = archive.read()
-        inference_scores_list = getScoreList(all_text, "Inference Score")
-        training_scores_list =  getScoreList(all_text, "Training Score")
+        inference_scores_list = getScoreList(all_text, "Inference Score: ")
+        training_scores_list =  getScoreList(all_text, "Training Score: ")
         execution_times_list =  getExecutionTimes(all_text)
 
 
@@ -72,10 +72,14 @@ if __name__ == "__main__":
 
         populateDictionaryWithMappings(map2InferenceScore, doe.data_mappings, doe.thread_mappings)
         populateDictionaryWithMappings(map2TrainingScore, doe.data_mappings, doe.thread_mappings)
-        populateDictionaryWithMappings(map2ExecutionTimes. doe.data_mappings, doe.thread_mapping)
+        populateDictionaryWithMappings(map2ExecutionTimes, doe.data_mappings, doe.thread_mappings)
 
         with open("doe.csv", "r") as doe:
             mappings = doe.readlines()
+            #Remove the \n from the end of the mappings strings
+            for i in range(len(mappings)):
+                mappings[i] = mappings[i].rstrip("\n") #remove the \n
+
             for mapping,inferenceScore, trainingScore in zip(mappings,inference_scores_list, training_scores_list):
                 map2InferenceScore[mapping].append(inferenceScore)
                 map2TrainingScore[mapping].append(trainingScore)
@@ -84,32 +88,16 @@ if __name__ == "__main__":
             i = 0
             for index, execution_time  in zip(range(len(execution_times_list)), execution_times_list):
                 offset_index = index - (i * 42)
-                if ((offset_index % 42) == 0 && offset_index != 0:
+                if ((offset_index % 42) == 0) and offset_index != 0:
                     i+= 1
                 
                 mapping_used = mappings[i]
                 map2ExecutionTimes[mapping_used].append(execution_time)
 
+            print(map2ExecutionTimes)
             
-                
-                
+           
 
-
-
-        for key in map2score.keys():
-            average = 0
-            number_of_items =0
-            for item in map2score[key]:
-                average += item
-                number_of_items += 1
-            average = average / number_of_items
-            map2score[key] = average
-
-        print(map2score)
-
-    with open("/home/mwc/Documents/TD_mapping/saida_exp.txt") as experimentArchives:
-        experimentTxt = experimentArchives.read()
-
-        getExecutionTimes(experimentTxt)
+   
 
 
