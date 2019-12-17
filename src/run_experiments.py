@@ -32,7 +32,7 @@ def change_thread_mapping(thread_mapping_policy):
 
 
 if __name__ == "__main__":
-    number_of_rounds = int(input("Number of rounds: "))
+    number_of_rounds = 3
 
     for i in range(0,number_of_rounds):
         generateDoeCSV("doe_{number}.csv".format(number=i))
@@ -49,7 +49,5 @@ if __name__ == "__main__":
                 change_thread_mapping(thread_mapping)
                 benchmark = AIBenchmark(use_CPU=True)
                 current_result = benchmark.run()
-                list_of_results.append(current_result)
-                print(current_result)
             doe.close()
 

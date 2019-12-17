@@ -1,0 +1,16 @@
+none,intALL
+rr,none
+none,memALL
+compact,numaBalancing
+none,none
+rr,numaBalancing
+rr,intALL
+compact,intALL
+scatter,intALL
+none,numaBalancing
+compact,memALL
+scatter,none
+compact,none
+rr,memALL
+scatter,numaBalancing
+scatter,memALL
