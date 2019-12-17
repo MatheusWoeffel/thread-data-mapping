@@ -6,6 +6,8 @@ from ai_benchmark import AIBenchmark
 def change_num_threads(num_threads):
     os.environ["OMP_NUM_THREADS"] = str(num_threads)
     os.system("export OMP_NUM_THREADS")
+
+
 def change_data_mapping(data_mapping_policy):
     os.system("/scratch/mwcamargo/utils --numa-off")
 
@@ -17,6 +19,7 @@ def change_data_mapping(data_mapping_policy):
     elif data_mapping_policy == "numaBalancing":
         os.system("/scratch/mwcamargo/utils --numa-on")
         os.environ["NCTL"] = ""
+
 
 def change_thread_mapping(thread_mapping_policy):
     os.system("unset -v GOMP_CPU_AFFINITY")
@@ -49,3 +52,4 @@ if __name__ == "__main__":
                 list_of_results.append(current_result)
                 print(current_result)
             doe.close()
+
