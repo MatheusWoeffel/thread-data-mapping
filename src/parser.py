@@ -54,7 +54,10 @@ def populateDictionaryWithMappings(dictionary, data_mappings, thread_mappings):
 
 
 if __name__ == "__main__":
-    with open("../novos_resultados.txt","r+") as archive:
+    experiments_output = input("Path of the results: ")
+    machine_name = input("Machine Name: ")
+    n_rounds = int(input("Number of Rounds: "))
+    with open(experiments_output,"r+") as archive:
         all_text = archive.read()
         inference_scores_list = getScoreList(all_text, "Inference Score: ")
         training_scores_list =  getScoreList(all_text, "Training Score: ")
@@ -94,7 +97,37 @@ if __name__ == "__main__":
                 mapping_used = mappings[i]
                 map2ExecutionTimes[mapping_used].append(execution_time)
 
-            print(map2ExecutionTimes)
+
+    results_path = "results_" + machine_name + "_" + str(n_rounds) + ".txt"
+    
+    applications_list = ["MobileNet-V2,inference", "MobileNet-V2,training",
+                           "Inception-V3,inference", "Inception-V3,training",
+                            "Inception-V4,inference", "Inception-V4,training",
+                            "Inception-ResNet-V2,inference", "Inception-ResNet-V2,training",
+                            "ResNet-V2-50,inference", "ResNet-V2-50,training",
+                            "ResNet-V2-152,inference", "ResNet-V2-152,training",
+                            "VGG-16,inference", "VGG-16,training",
+                            "SRCNN-9-5-5,inference", "SRCNN-9-5-5,inference2", "SRCNN-9-5-5,training",
+                            "VGG-19-Super-Res,inference", "VGG-19-Super-Res,inference2", "VGG-19-Super-Res,training",
+                            "ResNet-SRGAN,inference", "ResNet-SRGAN,inference2", "ResNet-SRGAN,training",
+                            "ResNet-DPED,inference", "ResNet-DPED,inference2", "ResNet-DPED,training",
+                            "U-Net,inference", "U-net,inference2", "U-net,training",
+                            "Nvidia-SPADE,inference", "Nvidia-SPADE,training",
+                            "ICNet,inference", "ICNet,training",
+                            "PSPNet,inference", "PSPNet,training",
+                            "DeepLab,inference", "DeepLab,training",
+                            "Pixel-RNN,inference", "Pixel-RNN,training",
+                            "LSTM-Sentiment,inference", "LSTM-Sentiment,training", "GNMT-Translation"
+                        ]
+
+    with open(results_path, "w") as result_archive:
+        for key in map2ExecutionTimes:
+            execution_times_per_key = map2ExecutionTimes[key]
+            for application_name, time in zip(applications_list, execution_times_per_key):
+                result_per_application = "{machine_name},{mappings_used},{app_name},{time}".format(machine_name=machine_name,mappings_used=key,app_name=application_name,time=time)
+                result_archive.write(result_per_application)
+    
+
             
            
 

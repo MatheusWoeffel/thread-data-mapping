@@ -32,9 +32,14 @@ def change_thread_mapping(thread_mapping_policy):
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     number_of_rounds = 2
     machine_name = "hype1"
     benchmark = AIBenchmark(use_CPU=True)
+=======
+    number_of_rounds = 3
+
+>>>>>>> b243f7e79d81cde401ddd6070c9d3c131deeca28
     for i in range(0,number_of_rounds):
         generateDoeCSV("doe_"+ machine_name + "_{number}.csv".format(number=i))
         #opens the default doe csv
