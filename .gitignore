@@ -1,1 +1,4 @@
 .idea
+*.csv
+src/*.csv
+src/__pycache__
