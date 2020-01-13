@@ -24,7 +24,7 @@ def getScoreList(experimentTXT, scoreDescriptor):
 
 
 def getExecutionTimes(experimentTXT):
-    execution_times_regex = "\d+[.]\d+.*[s]"
+    execution_times_regex = "\d+[.]\d+.*[m][s]"
     execution_times_lines =  re.findall(execution_times_regex,experimentTXT)
 
     execution_times = []
@@ -57,12 +57,12 @@ if __name__ == "__main__":
     experiments_output = input("Path of the results: ")
     machine_name = input("Machine Name: ")
     n_rounds = int(input("Number of Rounds: "))
-    with open(experiments_output,"r+") as archive:
+    with open(experiments_output,"r") as archive:
         all_text = archive.read()
         inference_scores_list = getScoreList(all_text, "Inference Score: ")
         training_scores_list =  getScoreList(all_text, "Training Score: ")
         execution_times_list =  getExecutionTimes(all_text)
-
+        print(execution_times_list)
 
         map2InferenceScore = {
         }
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         populateDictionaryWithMappings(map2TrainingScore, doe.data_mappings, doe.thread_mappings)
         populateDictionaryWithMappings(map2ExecutionTimes, doe.data_mappings, doe.thread_mappings)
 
-        with open("doe.csv", "r") as doe:
+        with open("new_hype1/doe_hype1_0.csv", "r") as doe:
             mappings = doe.readlines()
             #Remove the \n from the end of the mappings strings
             for i in range(len(mappings)):
@@ -89,6 +89,7 @@ if __name__ == "__main__":
 
             exec_times_per_run = 42
             i = 0
+            print(len(execution_times_list))
             for index, execution_time  in zip(range(len(execution_times_list)), execution_times_list):
                 offset_index = index - (i * 42)
                 if ((offset_index % 42) == 0) and offset_index != 0:
