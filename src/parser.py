@@ -62,7 +62,6 @@ if __name__ == "__main__":
         inference_scores_list = getScoreList(all_text, "Inference Score: ")
         training_scores_list =  getScoreList(all_text, "Training Score: ")
         execution_times_list =  getExecutionTimes(all_text)
-        print(execution_times_list)
 
         map2InferenceScore = {
         }
@@ -89,7 +88,7 @@ if __name__ == "__main__":
 
             exec_times_per_run = 42
             i = 0
-            print(len(execution_times_list))
+
             for index, execution_time  in zip(range(len(execution_times_list)), execution_times_list):
                 offset_index = index - (i * 42)
                 if ((offset_index % 42) == 0) and offset_index != 0:
