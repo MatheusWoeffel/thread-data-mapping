@@ -31,7 +31,7 @@ def getExecutionTimes(experimentTXT):
     for execution_time_line in execution_times_lines:
         index_of_time_start = execution_time_line.find(": ")
         index_of_time_end = execution_time_line.find(" ±")
-        execution_time = execution_time_line[index_of_time_start+1:index_of_time_end] 
+        execution_time = execution_time_line[index_of_time_start+2:index_of_time_end] 
         execution_times.append(execution_time)
 
     return execution_times
@@ -71,8 +71,8 @@ def generate_csv_from_results(results_path,doe_path,machine_name, experiment_id)
             populateDictionaryWithMappings(map2TrainingScore, doe.data_mappings, doe.thread_mappings)
             populateDictionaryWithMappings(map2ExecutionTimes, doe.data_mappings, doe.thread_mappings)
 
-            with open(doe_path, "r") as doe:
-                mappings = doe.readlines()
+            with open(doe_path, "r") as doe_archive:
+                mappings = doe_archive.readlines()
                 #Remove the \n from the end of the mappings strings
                 for i in range(len(mappings)):
                     mappings[i] = mappings[i].rstrip("\n") #remove the \n
@@ -118,7 +118,7 @@ def generate_csv_from_results(results_path,doe_path,machine_name, experiment_id)
                 for key in map2ExecutionTimes:
                     execution_times_per_key = map2ExecutionTimes[key]
                     for application_name, time in zip(applications_list, execution_times_per_key):
-                        result_per_application = "{machine_name},{mappings_used},{app_name},{time}".format(machine_name=machine_name,mappings_used=key,app_name=application_name,time=time)
+                        result_per_application = "{machine_name},{mappings_used},{app_name},{time}\n".format(machine_name=machine_name,mappings_used=key,app_name=application_name,time=time)
                         result_archive.write(result_per_application)
 
 
