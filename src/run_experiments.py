@@ -32,20 +32,15 @@ def change_thread_mapping(thread_mapping_policy):
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    number_of_rounds = 2
-    machine_name = "hype1"
+    number_of_rounds = 8
+    machine_name = "hype2"
     benchmark = AIBenchmark(use_CPU=True)
-=======
-    number_of_rounds = 3
 
->>>>>>> b243f7e79d81cde401ddd6070c9d3c131deeca28
-    for i in range(0,number_of_rounds):
-        generateDoeCSV("doe_"+ machine_name + "_{number}.csv".format(number=i))
-        #opens the default doe csv
-        with open("doe_" + machine_name + "_{number}.csv".format(number=i), "r") as doe:
+    version = 1
+    generateDoeCSV("doe_"+ machine_name + "_{number}.csv".format(number=version))
+    #opens the default doe csv
+    with open("doe_" + machine_name + "_{number}.csv".format(number=version), "r") as doe:
             experiment_rounds = doe.readlines()
-            list_of_results = []
 
             for experiment_round in experiment_rounds:
                 mappings = experiment_round.split(",")
@@ -53,6 +48,6 @@ if __name__ == "__main__":
                 data_mapping =   mappings[1]
                 change_data_mapping(data_mapping)
                 change_thread_mapping(thread_mapping)
-                current_result = benchmark.run()
+                current_result = benchmark.run_training(precision="high")
             doe.close()
 
