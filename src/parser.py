@@ -123,11 +123,11 @@ def generate_csv_from_results(results_path,doe_path,machine_name, experiment_id)
 
 
 if __name__ == "__main__":
-    results_path = input("Results path: ")
-    doe_path = input("Doe path: ")
     machine_name = input("Machine name: ")
     experiment_id = input("Experiment id: ")
 
+    results_path = "new_" + machine_name + "_" + experiment_id
+    doe_path = "doe_" + machine_name + "_" + experiment_id
     generate_csv_from_results(results_path,doe_path,machine_name,experiment_id)
     
 
