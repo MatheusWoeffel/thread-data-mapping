@@ -24,7 +24,7 @@ def getScoreList(experimentTXT, scoreDescriptor):
 
 
 def getExecutionTimes(experimentTXT):
-    execution_times_regex = "\d+[.]\d+.*[m][s]"
+    execution_times_regex = r"\d+[.]\d+.*[m][s]"
     execution_times_lines =  re.findall(execution_times_regex,experimentTXT)
 
     execution_times = []

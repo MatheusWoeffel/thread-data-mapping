@@ -49,9 +49,3 @@ def generateDoeCSV(doe_path):
             new_line = "{thread_mapping},{data_mapping}\n".format(thread_mapping=pairOfMapping[0],data_mapping=pairOfMapping[1])
             doe_archive.write(new_line)
 
-        doe_archive.close()
-
-def generateDefaultDoeCSV():
-    possibleExperiments = getListOfPossibleExperiments(thread_mappings,data_mappings)
-    randomizedExperiments = randomizeListOfExperiments(possibleExperiments)
-    generateDoeCSV(randomizedExperiments,"doe.csv")
