@@ -7,4 +7,4 @@ __pycache__
 src/__pycache_
 *.csv
 src/*.csv
-
+src/resultados/*

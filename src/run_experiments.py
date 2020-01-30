@@ -35,7 +35,7 @@ def change_thread_mapping(thread_mapping_policy):
 if __name__ == "__main__":
     """ python3 run_experiments.py machine_name start_index n_rounds
     """ 
-    path = "pathofexperiment here"
+    dir_path = "/home/users/mwcamargo/td_mapping/src/resultados/"
     machine_name = sys.argv[1]
     start_index = int(sys.argv[2])
     n_rounds = int(sys.argv[3])
@@ -44,9 +44,9 @@ if __name__ == "__main__":
     
     #Generate a doe corresponding to some round and them reads it to pick up the mappings corresponding to the round
     for i in range(start_index, start_index + n_rounds):
-        generateDoeCSV("doe_"+ machine_name + "_{number}.csv".format(number=i))
+        generateDoeCSV(dir_path +"doe_"+ machine_name + "_{number}.csv".format(number=i))
         
-        with open("doe_" + machine_name + "_{number}.csv".format(number=i), "r") as doe:
+        with open(dir_path + "doe_" + machine_name + "_{number}.csv".format(number=i), "r") as doe:
             print("------" + i + " round------", flush=True)
             experiment_rounds = doe.readlines()
 
