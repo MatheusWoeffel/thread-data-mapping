@@ -1,7 +1,7 @@
 import os
 import sys
 from doe import generateDoeCSV
-from ai_benchmark import AIBenchmark
+import csv
 
 
 def change_num_threads(num_threads):
@@ -35,28 +35,32 @@ def change_thread_mapping(thread_mapping_policy):
 if __name__ == "__main__":
     """ python3 run_experiments.py machine_name start_index n_rounds
     """ 
-    dir_path = "/home/users/mwcamargo/td_mapping/src/resultados/"
+    dir_path = "/home/users/mwcamargo/td_mapping/"
     machine_name = sys.argv[1]
     start_index = int(sys.argv[2])
     n_rounds = int(sys.argv[3])
-
-    benchmark = AIBenchmark(use_CPU=True)
     
     #Generate a doe corresponding to some round and them reads it to pick up the mappings corresponding to the round
     for i in range(start_index, start_index + n_rounds):
-        generateDoeCSV(dir_path +"doe_"+ machine_name + "_{number}.csv".format(number=i))
+        generateDoeCsv(dir_path +"doe_"+ machine_name + "_{number}.csv".format(number=i))
         
         with open(dir_path + "doe_" + machine_name + "_{number}.csv".format(number=i), "r") as doe:
-            print("------" + i + " round------", flush=True)
-            experiment_rounds = doe.readlines()
+            doe_csv = csv.reader(doe) 
 
-            for experiment_round in experiment_rounds:
-                mappings = experiment_round.split(",")
-                thread_mapping = mappings[0]
-                data_mapping =   mappings[1]
-                change_data_mapping(data_mapping)
-                change_thread_mapping(thread_mapping)
-                current_result = benchmark.run_training()
-                sys.stdout.flush()
+            for row  in doe_csv:
+                thread_mapping = row[2]
+                data_mapping = row[3]
+                app = row[0]
+                mode = row[1]
+
+               time_script =  """/run {mode} {app} > /tmp/out 2> /dev/null
+                    TIME=`grep "Time:" /tmp/out | awk {'print $2'}
+                    echo {app},{mode},{thread},{data}$TIME >> {time_archive}                  
+                """.format(time_archive=dir_path + machine_name + ".time", app = app, 
+                        mode = mode, thread = thread_mapping, data = data_mapping)
+                change_data_mapping(row[3])
+                change_thread_mapping(row[2])
+                os.system(time_script)
+
             
 
