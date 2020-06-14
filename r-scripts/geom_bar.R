@@ -4,6 +4,10 @@ library(tidyr)
 library(ggplot2)
 library(stringr)
 
+will_use_thread = FALSE
+will_use_data = TRUE
+archive_extension = ""
+
 data <- read_csv("ai_benchmark.csv")
 data$mapping <- as.character(interaction(data$`td_mapping`, data$`data_mapping`))
 
@@ -20,6 +24,17 @@ for(currentMode in unique(df$mode)){
   for(currentApp in unique(df$application)){
     d <- df %>% filter(mode == currentMode)
     d <- d %>% filter(application == currentApp)
+    
+    if(!will_use_data){
+      d <- d %>% filter(grepl("*.none", mapping.x))
+      archive_extension="_only_thread"
+    }
+    
+    if (!will_use_thread){
+      d <- d %>% filter(grepl("^none", mapping.x))
+      archive_extension="_only_data"
+    }
+    
     newChart <- ggplot(data=d, aes(x= application, y= avg.x, fill = mapping.x)) +
     #scale_y_continuous(trans = log2_trans(), 
     # breaks = trans_breaks("log2", function(x) 2^x),
@@ -32,7 +47,7 @@ for(currentMode in unique(df$mode)){
       legend.position="top",
       legend.text=element_text(size=20),
     ) + ggtitle(paste(currentApp, currentMode, sep=" "))
-  ggsave(plot=newChart, path="./td_charts", paste(currentApp,"_",currentMode, "_errbar.pdf", sep=""), width=20, height=22)
+  ggsave(plot=newChart, path="./td_charts", paste(currentApp,"_",currentMode, archive_extension,"_errbar.pdf", sep=""), width=20, height=22)
 }
 }
 
