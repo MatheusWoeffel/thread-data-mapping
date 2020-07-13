@@ -1,10 +1,6 @@
 .idea
-*.csv
-src/*.csv
 src/__pycache__
 *.txt
 __pycache__
 src/__pycache_
-*.csv
-src/*.csv
-src/resultados/*
+
