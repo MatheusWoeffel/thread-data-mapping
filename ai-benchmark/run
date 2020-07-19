@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+import sys
+from ai_benchmark import AIBenchmark
+import time
+
+if len(sys.argv) == 3:	
+	benchmark = AIBenchmark(use_CPU=True)
+
+	start_time = time.time()
+
+	if sys.argv[1] in "training":
+		print(sys.argv[2] + " - Training")
+		benchmark.run_training(app=sys.argv[2])
+	else:
+		print(sys.argv[2] + " - Inference")
+		benchmark.run_inference(app=sys.argv[2])
+
+	print("Time: " + str(time.time() - start_time))
+else:
+	print("Usage: " + sys.argv[0] + " <test> <application>\n")
+	print("test:\n\ttraining\n\tinference\n")
+	print("application:")
+	print("\tMobileNet-V2")
+	print("\tInception-V3")
+	print("\tInception-V4")
+	print("\tInception-ResNet-V2")
+	print("\tResNet-V2-50")
+	print("\tResNet-V2-152")
+	print("\tVGG-16")
+	print("\tSRCNN-9-5-5")
+	print("\tVGG-19-Super-Res")
+	print("\tResNet-SRGAN")
+	print("\tResNet-DPED")
+	print("\tU-Net")
+	print("\tNvidia-SPADE")
+	print("\tICNet")
+	print("\tPSPNet")
+	print("\tDeepLab")
+	print("\tPixel-RNN")
+	print("\tLSTM-Sentiment")
+	print("\tGNMT-Translation")
