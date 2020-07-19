@@ -19,5 +19,6 @@ pip install py-cpuinfo
 pip install Pillow
 pip install setuptools
 pip install requests
+pip install intel-tensorflow
 ````
 
